@@ -1,0 +1,51 @@
+{
+  "candidates": {
+    "Amuneke Party": {
+      "centerBreakdown": [
+        null,
+        150,
+        0
+      ],
+      "image": "/images/amuneke.jpg",
+      "name": "Gov Amune",
+      "votes": 150
+    },
+    "I Must Win": {
+      "centerBreakdown": [
+        null,
+        80,
+        0
+      ],
+      "image": "/images/imustwin.jpg",
+      "name": "Mamamia",
+      "votes": 80
+    },
+    "WayForward Party": {
+      "centerBreakdown": [
+        null,
+        120,
+        0
+      ],
+      "image": "/images/wayforward.jpg",
+      "name": "Peter U.K.W",
+      "votes": 120
+    }
+  },
+  "centerSubmissions": [
+    null,
+    {
+      "deviceLocked": true,
+      "officer": {
+        "name": "Test Officer",
+        "nin": "12345678901",
+        "phone": "08012345678"
+      },
+      "submitted": true,
+      "timestamp": "2026-02-13T22:44:00.823Z"
+    },
+    {
+      "deviceLocked": false,
+      "submitted": false
+    }
+  ]
+}
