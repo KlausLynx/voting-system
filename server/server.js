@@ -20,14 +20,43 @@ const database = admin.database();
 
 const app = express(); //Create an Express application
 const server = http.createServer(app); //Create an HTTP server using the Express app
-const io = socketIo(server, {
-    cors: {
-        origin: "*",
-        methods: ["GET", "POST"]
-    }
-});
+// const io = socketIo(server, {
+//     cors: {
+//         origin: "*",
+//         methods: ["GET", "POST"]
+//     }
+// });
 
-app.use(cors()); //Enable different site communication
+// app.use(cors()); //Enable different site communication
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://192.168.0.2:5173',
+  'https://voting-upload-site.vercel.app',
+  'https://wholemeal-noncoercively-seymour.ngrok-free.dev'
+];
+
+app.use(cors({
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      console.log('Blocked origin:', origin);
+      callback(null, true); // Allow all for now during testing
+    }
+  },
+  credentials: true
+}));
+
+const io = socketIo(server, {
+  cors: {
+    origin: allowedOrigins,
+    methods: ["GET", "POST"],
+    credentials: true
+  }
+});
 app.use(express.json()); //Read body of requests as JSON
 app.use('/images', express.static(path.join(__dirname, '..', 'images'))); // Use a static directory for serving images
 
@@ -347,6 +376,18 @@ app.post('/submit-vote', async (req, res) => {
         res.status(500).json({error: 'Error submitting vote'});
     }
 })
+
+// Get list of centers
+app.get('/get-centers', (req, res) => {
+  const centers = Object.keys(centerRegistry).map(key => ({
+    id: key,
+    name: centerRegistry[key].name,
+    code: centerRegistry[key].code,
+    location: centerRegistry[key].location
+  }));
+  
+  res.json(centers);
+});
 
 io.on('connection', (socket) => {
     console.log('Display Connected:', socket.id);
